@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // כתובת האתר הסופית (לקישורים קנוניים ול-sitemap) – לעדכן אחרי שיהיה דומיין
-  // site: 'https://example.co.il',
+  // כתובת האתר – לעדכן אם יחובר דומיין משלו
+  site: 'https://driving-teacher.pages.dev',
   build: { format: 'directory' },
 });

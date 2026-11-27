@@ -56,11 +56,15 @@ tests/
 
 ## פריסה
 
-### Cloudflare Pages
-- Build command: `npm run build`
-- Output directory: `dist`
+### Cloudflare Pages (אוטומטי)
+כל push ל-`main` מריץ את `.github/workflows/deploy.yml`: בדיקת טיפוסים, בדיקות, בנייה ופריסה עם wrangler לפרויקט `driving-teacher`.
+כתובת: https://driving-teacher.pages.dev
+
+נדרשים שני Secrets בריפו (Settings → Secrets and variables → Actions):
+- `CLOUDFLARE_API_TOKEN` – טוקן עם הרשאת *Cloudflare Pages: Edit*
+- `CLOUDFLARE_ACCOUNT_ID`
 
 ### GitHub Pages / כל שרת סטטי
 להעלות את תוכן `dist/` אחרי `npm run build`.
 
-> לפני פרסום: לעדכן את `site` ב-`astro.config.mjs` לכתובת הדומיין הסופית.
+> אם מחברים דומיין משלו – לעדכן את `site` ב-`astro.config.mjs`.
