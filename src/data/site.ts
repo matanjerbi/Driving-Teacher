@@ -11,9 +11,9 @@ export const site = {
   /** מיקום בית הספר (המגרש) – לא כתובת מגורים */
   location: {
     label: 'צמוד לקפלר אופנועים, פתח תקווה',
-    lat: 32.106115,
-    lng: 34.864424,
-    googleMapsUrl: 'https://maps.app.goo.gl/DfgXiuqRD5MCB2JH6',
+    lat: 32.1061389,
+    lng: 34.8656944,
+    googleMapsUrl: 'https://maps.app.goo.gl/Wzv38MCPVb6351Xr7',
   },
   phone: {
     display: '054-4287793',
