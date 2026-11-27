@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניר הלאלי | לימוד נהיגה על אופנועים בפתח תקווה – A2 · A1 · A</title>
+<meta name="description" content="ניר הלאלי – מורה לנהיגה על אופנועים בפתח תקווה. לימוד לרישיון A2, A1 ו-A, יחס אישי והכנה אמיתית לטסט.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#121315;
+    --asphalt-2:#1b1d20;
+    --asphalt-3:#25282c;
+    --line:#2f3337;
+    --text:#f2f2f0;
+    --muted:#a9adb2;
+    --accent:#ffc21a;      /* צהוב סימון כביש */
+    --accent-dark:#e0a800;
+    --wa:#25d366;
+    --radius:14px;
+    --max:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Heebo',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+    background:var(--asphalt);color:var(--text);line-height:1.65;font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  .wrap{width:min(var(--max),100% - 40px);margin-inline:auto}
+
+  /* ---------- כפתורים ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font-weight:700;font-size:17px;padding:15px 26px;border-radius:999px;
+    transition:transform .15s ease,background .15s ease,box-shadow .15s ease;
+    white-space:nowrap;
+  }
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--accent);color:#111}
+  .btn-primary:hover{background:var(--accent-dark)}
+  .btn-wa{background:var(--wa);color:#08260f}
+  .btn-wa:hover{filter:brightness(.95)}
+  .btn-ghost{border:1.5px solid var(--line);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--muted)}
+
+  /* ---------- כותרת עליונה ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(18,19,21,.88);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{
+    width:40px;height:40px;border-radius:10px;background:var(--accent);
+    display:grid;place-items:center;color:#111;font-weight:900;font-size:20px;
+  }
+  .brand-name{font-weight:800;font-size:19px;line-height:1.1}
+  .brand-sub{font-size:13px;color:var(--muted);font-weight:500}
+  .nav-links{display:flex;gap:28px;font-weight:500;color:var(--muted)}
+  .nav-links a:hover{color:var(--text)}
+  .nav .btn{padding:10px 18px;font-size:15px}
+  @media (max-width:860px){ .nav-links{display:none} }
+  @media (max-width:420px){ .nav .btn span{display:none} .nav .btn{padding:10px 12px} }
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;overflow:hidden;padding:72px 0 96px}
+  .hero::before{ /* תאורה עדינה */
+    content:"";position:absolute;inset:-40% -10% auto auto;width:720px;height:720px;
+    background:radial-gradient(circle,rgba(255,194,26,.14),transparent 62%);pointer-events:none;
+  }
+  .road{ /* קו הפרדה מקווקו בתחתית */
+    position:absolute;left:0;right:0;bottom:34px;height:6px;
+    background:repeating-linear-gradient(90deg,var(--accent) 0 56px,transparent 56px 104px);
+    opacity:.85;
+  }
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+  .tag{
+    font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;
+    background:var(--asphalt-3);border:1px solid var(--line);color:var(--muted);
+  }
+  .tag.hl{color:#111;background:var(--accent);border-color:var(--accent)}
+  h1{font-size:clamp(38px,6vw,64px);font-weight:900;line-height:1.08;letter-spacing:-.5px}
+  h1 em{font-style:normal;color:var(--accent)}
+  .lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted);margin:20px 0 32px;max-width:34ch}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+
+  .quote-card{
+    background:var(--asphalt-2);border:1px solid var(--line);border-radius:20px;padding:28px;
+    position:relative;
+  }
+  .quote-card .stars{color:var(--accent);letter-spacing:3px;font-size:18px}
+  .quote-card blockquote{font-size:21px;font-weight:700;line-height:1.45;margin:14px 0 18px}
+  .quote-card cite{font-style:normal;color:var(--muted);font-size:15px}
+  .quote-card .badge{
+    position:absolute;top:-14px;left:24px;background:var(--accent);color:#111;
+    font-weight:800;font-size:13px;padding:6px 12px;border-radius:999px;
+  }
+  @media (max-width:860px){
+    .hero{padding:48px 0 88px}
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+  }
+
+  /* ---------- סקשנים ---------- */
+  section{padding:88px 0}
+  .alt{background:var(--asphalt-2);border-block:1px solid var(--line)}
+  .eyebrow{color:var(--accent);font-weight:800;font-size:14px;letter-spacing:1px;margin-bottom:10px}
+  h2{font-size:clamp(30px,4.2vw,44px);font-weight:900;line-height:1.15;margin-bottom:14px}
+  .section-lead{color:var(--muted);max-width:56ch;margin-bottom:44px}
+
+  /* רישיונות */
+  .licenses{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .lic{
+    background:var(--asphalt);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 26px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s;
+  }
+  .lic:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .lic-code{
+    font-size:52px;font-weight:900;line-height:1;color:var(--accent);
+    font-family:'Heebo',sans-serif;direction:ltr;text-align:right;
+  }
+  .lic h3{font-size:22px;font-weight:800;margin:12px 0 6px}
+  .lic p{color:var(--muted);font-size:16px;margin-bottom:20px}
+  .specs{list-style:none;margin-top:auto;border-top:1px solid var(--line);padding-top:16px;display:grid;gap:10px}
+  .specs li{display:flex;justify-content:space-between;gap:10px;font-size:15px}
+  .specs li span:first-child{color:var(--muted)}
+  .specs li span:last-child{font-weight:700}
+  .note{color:var(--muted);font-size:14px;margin-top:20px}
+  @media (max-width:860px){ .licenses{grid-template-columns:1fr} }
+
+  .guide-cta{
+    margin-top:28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+    background:var(--asphalt);border:1px dashed #4a4f55;border-radius:var(--radius);padding:22px 26px;
+  }
+  .guide-cta strong{display:block;font-size:19px}
+  .guide-cta span{color:var(--muted)}
+  .specs li span:last-child{text-align:left}
+
+  /* למה ניר */
+  .why{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .why-item{padding:4px}
+  .why-icon{
+    width:52px;height:52px;border-radius:12px;background:var(--asphalt-3);border:1px solid var(--line);
+    display:grid;place-items:center;margin-bottom:16px;color:var(--accent);
+  }
+  .why-icon svg{width:26px;height:26px}
+  .why-item h3{font-size:19px;font-weight:800;margin-bottom:6px}
+  .why-item p{color:var(--muted);font-size:16px}
+  @media (max-width:960px){ .why{grid-template-columns:1fr 1fr} }
+  @media (max-width:560px){ .why{grid-template-columns:1fr} }
+
+  /* באנר "נכשלת?" */
+  .retry{
+    display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;
+    background:var(--accent);color:#111;border-radius:22px;padding:40px 44px;
+  }
+  .retry h2{margin:0 0 6px;color:#111}
+  .retry p{font-size:18px;font-weight:500;max-width:52ch}
+  .retry .btn{background:#111;color:var(--accent)}
+  .retry .btn:hover{background:#000}
+  @media (max-width:760px){ .retry{grid-template-columns:1fr;padding:32px 26px} }
+
+  /* תהליך */
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;counter-reset:s}
+  .step{
+    position:relative;background:var(--asphalt);border:1px solid var(--line);
+    border-radius:var(--radius);padding:28px 24px 26px;counter-increment:s;
+  }
+  .step::before{
+    content:counter(s);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;
+    background:var(--accent);color:#111;font-weight:900;font-size:18px;margin-bottom:16px;
+  }
+  .step h3{font-size:19px;font-weight:800;margin-bottom:6px}
+  .step p{color:var(--muted);font-size:15.5px}
+  @media (max-width:1060px){ .steps{grid-template-columns:repeat(3,1fr)} }
+  @media (max-width:760px){ .steps{grid-template-columns:1fr 1fr} }
+  @media (max-width:560px){ .steps{grid-template-columns:1fr} }
+
+  /* ביקורות */
+  .reviews{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .review{background:var(--asphalt-2);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .review .stars{color:var(--accent);letter-spacing:3px}
+  .review p{font-size:19px;font-weight:500;margin:12px 0 16px}
+  .review footer{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:15px}
+  .avatar{
+    width:40px;height:40px;border-radius:50%;background:var(--asphalt-3);border:1px solid var(--line);
+    display:grid;place-items:center;font-weight:800;color:var(--text);
+  }
+  @media (max-width:760px){ .reviews{grid-template-columns:1fr} }
+
+  /* שאלות נפוצות */
+  .faq{display:grid;gap:12px;max-width:820px}
+  details{background:var(--asphalt);border:1px solid var(--line);border-radius:12px;padding:0 22px}
+  details[open]{border-color:#44494f}
+  summary{
+    list-style:none;cursor:pointer;padding:20px 0;font-weight:700;font-size:18px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:26px;font-weight:400;color:var(--accent);transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--muted);padding:0 0 20px}
+
+  /* יצירת קשר */
+  .contact{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+  .contact-list{list-style:none;display:grid;gap:14px;margin:28px 0 32px}
+  .contact-list li{display:flex;gap:14px;align-items:center;font-size:18px}
+  .contact-list .ic{
+    width:44px;height:44px;border-radius:12px;background:var(--asphalt-3);border:1px solid var(--line);
+    display:grid;place-items:center;color:var(--accent);flex:none;
+  }
+  .contact-list .ic svg{width:22px;height:22px}
+  .contact-list small{display:block;color:var(--muted);font-size:14px}
+  .map{
+    border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);
+    aspect-ratio:4/3;background:var(--asphalt-3);
+  }
+  .map iframe{width:100%;height:100%;border:0;filter:grayscale(.6) invert(.9) hue-rotate(180deg) contrast(.9)}
+  @media (max-width:860px){ .contact{grid-template-columns:1fr} }
+
+  /* פוטר */
+  .site-footer{padding:36px 0 110px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+  .site-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  /* כפתור וואטסאפ צף */
+  .wa-float{
+    position:fixed;bottom:20px;left:20px;z-index:60;width:60px;height:60px;border-radius:50%;
+    background:var(--wa);display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.4);
+    transition:transform .15s;
+  }
+  .wa-float:hover{transform:scale(1.06)}
+  .wa-float svg{width:32px;height:32px;color:#fff}
+
+  /* סרגל פעולה תחתון בנייד */
+  .mobile-bar{display:none}
+  @media (max-width:640px){
+    .wa-float{display:none}
+    .mobile-bar{
+      display:grid;grid-template-columns:1fr 1fr;gap:10px;position:fixed;bottom:0;left:0;right:0;z-index:60;
+      padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+      background:rgba(18,19,21,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px);
+    }
+    .mobile-bar .btn{padding:13px 10px;font-size:16px}
+  }
+
+  /* כניסה עדינה */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- אייקונים משותפים -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.22-.17-.47-.29Z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="ניר הלאלי – לראש העמוד">
+      <div class="brand-mark">נ</div>
+      <div>
+        <div class="brand-name">ניר הלאלי</div>
+        <div class="brand-sub">לימוד נהיגה על אופנועים</div>
+      </div>
+    </a>
+    <nav class="nav-links" aria-label="ניווט ראשי">
+      <a href="#licenses">רישיונות</a>
+      <a href="guide.html">כמה שיעורים צריך?</a>
+      <a href="#process">איך זה עובד</a>
+      <a href="#reviews">תלמידים ממליצים</a>
+      <a href="#faq">שאלות</a>
+      <a href="#contact">צור קשר</a>
+    </nav>
+    <a class="btn btn-primary" href="tel:0544287793"><svg><use href="#i-phone"/></svg><span>054-4287793</span></a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="padding-top:72px">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="tags">
+          <span class="tag hl">פתח תקווה</span>
+          <span class="tag">A2</span><span class="tag">A1</span><span class="tag">A</span>
+        </div>
+        <h1>לומדים לרכוב נכון.<br><em>עוברים טסט</em> בביטחון.</h1>
+        <p class="lead">שיעורי נהיגה על אופנועים וקטנועים בפתח תקווה – מהשיעור הראשון במגרש ועד הטסט, לכל דרגות הרישיון.</p>
+        <div class="cta-row">
+          <a class="btn btn-wa" href="https://wa.me/972544287793?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%99%D7%A8%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%A9%D7%99%D7%A2%D7%95%D7%A8%D7%99%20%D7%90%D7%95%D7%A4%D7%A0%D7%95%D7%A2" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>שלחו הודעה בוואטסאפ</a>
+          <a class="btn btn-ghost" href="tel:0544287793"><svg><use href="#i-phone"/></svg>חייגו עכשיו</a>
+        </div>
+      </div>
+
+      <aside class="quote-card reveal" aria-label="המלצת תלמיד">
+        <span class="badge">עבר טסט שלישי</span>
+        <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+        <blockquote>"עברתי אליו אחרי שני טסטים אצל מורה אחר, ואחרי כמה שיעורים אצלו עברתי טסט שלישי בקלות."</blockquote>
+        <cite>— רועי ד., תלמיד</cite>
+      </aside>
+    </div>
+    <div class="road" aria-hidden="true"></div>
+  </section>
+
+  <!-- רישיונות -->
+  <section id="licenses" class="alt">
+    <div class="wrap">
+      <div class="eyebrow">דרגות רישיון</div>
+      <h2>איזה רישיון מתאים לך?</h2>
+      <p class="section-lead">אנחנו מלמדים את כל שלוש דרגות הרישיון לאופנוע. לא בטוחים מה מתאים? שלחו הודעה ונעשה סדר.</p>
+
+      <div class="licenses">
+        <article class="lic reveal">
+          <div class="lic-code">A2</div>
+          <h3>קטנוע ואופנוע קל</h3>
+          <p>הדרך הקלה להתחיל – לעיר, לעבודה ולסידורים, בלי להיתקע בפקקים.</p>
+          <ul class="specs">
+            <li><span>נפח מנוע</span><span>עד 125 סמ"ק</span></li>
+            <li><span>הספק</span><span>עד 14.6 כ"ס</span></li>
+            <li><span>גיל מינימלי</span><span>16</span></li>
+            <li><span>שיעורים (מינימום)</span><span>15 · או 0 עם רישיון רכב 3+ שנים</span></li>
+          </ul>
+        </article>
+
+        <article class="lic reveal">
+          <div class="lic-code">A1</div>
+          <h3>אופנוע בינוני</h3>
+          <p>לרכיבה גם מחוץ לעיר, בכבישים מהירים ובטיולים – אופנוע עם יותר כוח ויציבות.</p>
+          <ul class="specs">
+            <li><span>הספק</span><span>עד 47.46 כ"ס</span></li>
+            <li><span>גיל מינימלי</span><span>18</span></li>
+            <li><span>שיעורים (מינימום)</span><span>15 · או 8 עם A2</span></li>
+          </ul>
+        </article>
+
+        <article class="lic reveal">
+          <div class="lic-code">A</div>
+          <h3>אופנוע ללא הגבלה</h3>
+          <p>הרישיון המלא – כל אופנוע, כל נפח וכל הספק. השלב הבא למי שכבר רוכב.</p>
+          <ul class="specs">
+            <li><span>הספק</span><span>ללא הגבלה</span></li>
+            <li><span>גיל מינימלי</span><span>21</span></li>
+            <li><span>תנאי</span><span>שנה ברישיון A1</span></li>
+            <li><span>שיעורים (מינימום)</span><span>8</span></li>
+          </ul>
+        </article>
+      </div>
+      <div class="guide-cta reveal"><div><strong>לא בטוחים כמה שיעורים אתם צריכים?</strong><span>ענו על שתי שאלות וקבלו את המסלול שלכם – טופס ירוק, תאוריה, שיעורים וטסט.</span></div><a class="btn btn-primary" href="guide.html">למדריך המלא ←</a></div>
+      <p class="note">* לפי תקנות משרד התחבורה כפי שפורסמו. התנאים עשויים להשתנות – נשמח לעבור איתכם על המקרה שלכם.</p>
+    </div>
+  </section>
+
+  <!-- למה ניר -->
+  <section id="why">
+    <div class="wrap">
+      <div class="eyebrow">למה ללמוד אצלנו</div>
+      <h2>רוכבים בטוחים, לא רק עוברי טסט</h2>
+      <p class="section-lead">המטרה היא לא רק לעבור את המבחן – אלא לצאת לכביש עם ביטחון אמיתי ושליטה בכלי.</p>
+      <div class="why">
+        <div class="why-item reveal">
+          <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
+          <h3>יחס אישי</h3>
+          <p>כל שיעור מותאם לקצב ולרמה שלך, עם דגש על מה שבאמת צריך לשפר.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></div>
+          <h3>בטיחות קודם</h3>
+          <p>שליטה בכלי, בלימה, תמרון וקריאת הדרך – הבסיס לרכיבה נכונה לשנים.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+          <h3>הכנה ממוקדת לטסט</h3>
+          <p>תרגול של מה שבוחנים בפועל, כדי להגיע למבחן רגועים ומוכנים.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon"><svg><use href="#i-pin"/></svg></div>
+          <h3>בפתח תקווה</h3>
+          <p>שיעורים בפתח תקווה והסביבה – קרוב, נוח וזמין.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- באנר נכשלת? -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="retry reveal">
+        <div>
+          <h2>נכשלת בטסט אצל מורה אחר?</h2>
+          <p>זה קורה, וזה לא אומר שאתה לא יכול. לפעמים צריך רק הסבר אחר ותיקון של כמה דברים קטנים. תלמידים הגיעו אלינו אחרי כישלונות – ועברו.</p>
+        </div>
+        <a class="btn" href="https://wa.me/972544287793?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%99%D7%A8%2C%20%D7%A0%D7%9B%D7%A9%D7%9C%D7%AA%D7%99%20%D7%91%D7%98%D7%A1%D7%98%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%9E%D7%A9%D7%99%D7%9A%20%D7%90%D7%A6%D7%9C%D7%9A" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>בוא נדבר</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- תהליך -->
+  <section id="process" class="alt">
+    <div class="wrap">
+      <div class="eyebrow">הדרך לרישיון</div>
+      <h2>איך זה עובד?</h2>
+      <p class="section-lead">חמישה שלבים – ואנחנו מלווים אתכם לאורך כל הדרך. <a href="guide.html" style="color:var(--accent);font-weight:700">פירוט מלא לפי סוג רישיון ←</a></p>
+      <div class="steps">
+        <div class="step reveal"><h3>טופס ירוק</h3><p>מנפיקים באתר משרד התחבורה: הצהרת בריאות ובדיקת ראייה אצל אופטומטריסט מורשה. בלי זה אי אפשר להתחיל.</p></div>
+        <div class="step reveal"><h3>תאוריה</h3><p>מבחן תאוריה לאופנוע. בעלי רישיון רכב ותיקים ובעלי רישיון אופנוע לרוב פטורים.</p></div>
+        <div class="step reveal"><h3>שיעורים במגרש</h3><p>מכירים את האופנוע, איזון, הילוכים ובלימות – בסביבה רגועה ובטוחה.</p></div>
+        <div class="step reveal"><h3>רכיבה בכביש</h3><p>עוברים לתנועה אמיתית: נתיבים, צמתים, תמרונים וקריאת הדרך.</p></div>
+        <div class="step reveal"><h3>טסט</h3><p>מגיעים למבחן מוכנים ורגועים – ויוצאים עם רישיון.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ביקורות -->
+  <section id="reviews">
+    <div class="wrap">
+      <div class="eyebrow">תלמידים ממליצים</div>
+      <h2>מה אומרים התלמידים</h2>
+      <p class="section-lead">ביקורות אמיתיות של תלמידים.</p>
+      <div class="reviews">
+        <article class="review reveal">
+          <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+          <p>"מורה מעולה!! עברתי אליו אחרי שני טסטים אצל מורה אחר, ואחרי כמה שיעורים אצלו עברתי טסט שלישי בקלות."</p>
+          <footer><div class="avatar">ר</div><div>רועי ד.<br><small>מתוך ביקורות ב-easy</small></div></footer>
+        </article>
+        <article class="review reveal">
+          <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+          <p>"מורה מצויין!"</p>
+          <footer><div class="avatar">T</div><div>T.<br><small>מתוך ביקורות ב-easy</small></div></footer>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- שאלות נפוצות -->
+  <section id="faq" class="alt">
+    <div class="wrap">
+      <div class="eyebrow">שאלות נפוצות</div>
+      <h2>שאלות שתלמידים שואלים</h2>
+      <div class="faq" style="margin-top:36px">
+        <details class="reveal">
+          <summary>איזה רישיון אני צריך?</summary>
+          <p>תלוי בכלי שתרצו לרכוב עליו ובגיל שלכם. קטנוע עד 125 סמ"ק – A2. אופנוע בינוני – A1. כל אופנוע ללא הגבלה – A. שלחו הודעה ונתאים יחד.</p>
+        </details>
+        <details class="reveal">
+          <summary>כמה שיעורים צריך?</summary>
+          <p>תלוי בדרגה ובמה שכבר יש לכם: A2 – 15 שיעורים, ובעלי רישיון רכב 3 שנים ומעלה לא חייבים במינימום. A1 – 15, או 8 למי שיש A2. A – 8. <a href="guide.html" style="color:var(--accent);font-weight:700">למדריך המלא ←</a></p>
+        </details>
+        <details class="reveal">
+          <summary>נכשלתי בטסט אצל מורה אחר – אפשר להמשיך אצלכם?</summary>
+          <p>בהחלט. נבדוק איפה הקושי, נתקן את מה שצריך ונכין אתכם לטסט הבא.</p>
+        </details>
+        <details class="reveal">
+          <summary>כבר יש לי רישיון ואני רוצה לשדרג דרגה</summary>
+          <p>אפשר להגדיל רישיון מ-A2 ל-A1 ומ-A1 ל-A. צרו קשר ונבדוק מה התנאים במקרה שלכם.</p>
+        </details>
+        <details class="reveal">
+          <summary>מה זה טופס ירוק ואיך מוציאים?</summary>
+          <p>זה האישור שמאפשר להתחיל ללמוד נהיגה. מנפיקים אותו באתר משרד התחבורה: ממלאים הצהרת בריאות, עוברים בדיקת ראייה אצל אופטומטריסט מורשה – והטופס מוכן. צריך אותו גם כשמוסיפים דרגה לרישיון קיים.</p>
+        </details>
+        <details class="reveal">
+          <summary>כמה עולה שיעור?</summary>
+          <p>המחיר תלוי בדרגת הרישיון. התקשרו או שלחו הודעה בוואטסאפ לקבלת מחיר מעודכן.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- יצירת קשר -->
+  <section id="contact">
+    <div class="wrap contact">
+      <div>
+        <div class="eyebrow">יוצאים לדרך</div>
+        <h2>מוכנים לשיעור הראשון?</h2>
+        <p class="section-lead" style="margin-bottom:0">שלחו הודעה או התקשרו – נחזור אליכם לתיאום.</p>
+        <ul class="contact-list">
+          <li><span class="ic"><svg><use href="#i-phone"/></svg></span><a href="tel:0544287793"><strong>054-4287793</strong><small>טלפון</small></a></li>
+          <li><span class="ic"><svg><use href="#i-wa"/></svg></span><a href="https://wa.me/972544287793" target="_blank" rel="noopener"><strong>וואטסאפ</strong><small>מענה מהיר בהודעה</small></a></li>
+          <li><span class="ic"><svg><use href="#i-pin"/></svg></span><a href="https://www.google.com/maps/search/?api=1&query=%D7%A8%D7%90%D7%A9+%D7%A4%D7%99%D7%A0%D7%94+21+%D7%A4%D7%AA%D7%97+%D7%AA%D7%A7%D7%95%D7%95%D7%94" target="_blank" rel="noopener"><strong>ראש פינה 21, פתח תקווה</strong><small>פתח תקווה והסביבה</small></a></li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn-wa" href="https://wa.me/972544287793?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%99%D7%A8%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%A9%D7%99%D7%A2%D7%95%D7%A8%D7%99%20%D7%90%D7%95%D7%A4%D7%A0%D7%95%D7%A2" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>שלחו הודעה</a>
+          <a class="btn btn-ghost" href="tel:0544287793"><svg><use href="#i-phone"/></svg>חייגו</a>
+        </div>
+      </div>
+      <div class="map reveal">
+        <iframe title="מפה – ראש פינה 21, פתח תקווה" loading="lazy"
+          src="https://maps.google.com/maps?q=%D7%A8%D7%90%D7%A9%20%D7%A4%D7%99%D7%A0%D7%94%2021%20%D7%A4%D7%AA%D7%97%20%D7%AA%D7%A7%D7%95%D7%95%D7%94&z=15&output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="y"></span> ניר הלאלי – לימוד נהיגה על אופנועים, פתח תקווה</span>
+    <span>A2 · A1 · A</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/972544287793" target="_blank" rel="noopener" aria-label="שליחת הודעה בוואטסאפ"><svg><use href="#i-wa"/></svg></a>
+
+<div class="mobile-bar">
+  <a class="btn btn-wa" href="https://wa.me/972544287793" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>וואטסאפ</a>
+  <a class="btn btn-primary" href="tel:0544287793"><svg><use href="#i-phone"/></svg>חיוג</a>
+</div>
+
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  try{
+    const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  }catch(_){ document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')); }
+</script>
+</body>
+</html>
