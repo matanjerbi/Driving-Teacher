@@ -1,0 +1,75 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import Icon from '../layout/Icon.astro';
+import { why } from '@/data/content';
+---
+
+<section id="why" class="section">
+  <div class="wrap">
+    <SectionHeader eyebrow="למה ללמוד אצלנו" title="רוכבים בטוחים, לא רק עוברי טסט">
+      המטרה היא לא רק לעבור את המבחן – אלא לצאת לכביש עם ביטחון אמיתי ושליטה בכלי.
+    </SectionHeader>
+
+    <div class="why">
+      {
+        why.map((item) => (
+          <div class="why__item reveal">
+            <div class="why__icon">
+              <Icon name={item.icon} />
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .why {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .why__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--asphalt-3);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+
+  .why__icon :global(svg) {
+    width: 26px;
+    height: 26px;
+  }
+
+  h3 {
+    font-size: 19px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 16px;
+  }
+
+  @media (max-width: 960px) {
+    .why {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .why {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

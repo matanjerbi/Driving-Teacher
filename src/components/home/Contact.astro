@@ -1,0 +1,115 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import Icon from '../layout/Icon.astro';
+import { mapsEmbedSrc, mapsHref, site, telHref, waHref } from '@/data/site';
+import { waMessages } from '@/data/content';
+
+const items = [
+  { icon: 'phone', href: telHref, title: site.phone.display, sub: 'טלפון', external: false },
+  { icon: 'whatsapp', href: waHref(), title: 'וואטסאפ', sub: 'מענה מהיר בהודעה', external: true },
+  { icon: 'pin', href: mapsHref, title: site.address, sub: `${site.city} והסביבה`, external: true },
+] as const;
+---
+
+<section id="contact" class="section">
+  <div class="wrap contact">
+    <div>
+      <SectionHeader eyebrow="יוצאים לדרך" title="מוכנים לשיעור הראשון?" />
+      <p class="lead">שלחו הודעה או התקשרו – נחזור אליכם לתיאום.</p>
+
+      <ul class="contact__list">
+        {
+          items.map((item) => (
+            <li>
+              <span class="contact__icon">
+                <Icon name={item.icon} />
+              </span>
+              <a href={item.href} {...(item.external ? { target: '_blank', rel: 'noopener' } : {})}>
+                <strong>{item.title}</strong>
+                <small>{item.sub}</small>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="cta-row">
+        <a class="btn btn--wa" href={waHref(waMessages.general)} target="_blank" rel="noopener">
+          <Icon name="whatsapp" />שלחו הודעה
+        </a>
+        <a class="btn btn--ghost" href={telHref}><Icon name="phone" />חייגו</a>
+      </div>
+    </div>
+
+    <div class="contact__map reveal">
+      <iframe title={`מפה – ${site.address}`} loading="lazy" src={mapsEmbedSrc}></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .contact__list {
+    list-style: none;
+    display: grid;
+    gap: 14px;
+    margin: 28px 0 32px;
+  }
+
+  .contact__list li {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-size: 18px;
+  }
+
+  .contact__list small {
+    display: block;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .contact__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--asphalt-3);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    color: var(--accent);
+    flex: none;
+  }
+
+  .contact__icon :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .contact__map {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 4 / 3;
+    background: var(--asphalt-3);
+  }
+
+  .contact__map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(0.6) invert(0.9) hue-rotate(180deg) contrast(0.9);
+  }
+
+  @media (max-width: 860px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

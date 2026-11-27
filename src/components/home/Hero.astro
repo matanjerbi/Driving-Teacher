@@ -1,0 +1,129 @@
+---
+import Icon from '../layout/Icon.astro';
+import { site, telHref, waHref } from '@/data/site';
+import { reviews, waMessages } from '@/data/content';
+
+const featured = reviews.find((r) => r.highlight);
+---
+
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <div class="hero__tags">
+        <span class="chip chip--accent">{site.city}</span>
+        <span class="chip">A2</span><span class="chip">A1</span><span class="chip">A</span>
+      </div>
+      <h1>לומדים לרכוב נכון.<br /><em>עוברים טסט</em> בביטחון.</h1>
+      <p class="lead hero__lead">
+        שיעורי נהיגה על אופנועים וקטנועים ב{site.city} – מהשיעור הראשון במגרש ועד הטסט, לכל דרגות הרישיון.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn--wa" href={waHref(waMessages.general)} target="_blank" rel="noopener">
+          <Icon name="whatsapp" />שלחו הודעה בוואטסאפ
+        </a>
+        <a class="btn btn--ghost" href={telHref}><Icon name="phone" />חייגו עכשיו</a>
+      </div>
+    </div>
+
+    {
+      featured && (
+        <aside class="quote reveal" aria-label="המלצת תלמיד">
+          {featured.badge && <span class="quote__badge">{featured.badge}</span>}
+          <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+          <blockquote>"{featured.highlight}"</blockquote>
+          <cite>— {featured.name}, תלמיד</cite>
+        </aside>
+      )
+    }
+  </div>
+  <div class="hero__road" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 0 96px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: -40% -10% auto auto;
+    width: 720px;
+    height: 720px;
+    background: radial-gradient(circle, rgba(255, 194, 26, 0.14), transparent 62%);
+    pointer-events: none;
+  }
+
+  .hero__road {
+    position: absolute;
+    inset: auto 0 34px 0;
+    height: 6px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 56px, transparent 56px 104px);
+    opacity: 0.85;
+  }
+
+  .hero__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .hero__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+
+  .hero__lead {
+    margin: 20px 0 32px;
+    max-width: 34ch;
+  }
+
+  .quote {
+    position: relative;
+    background: var(--asphalt-2);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px;
+  }
+
+  .quote blockquote {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.45;
+    margin: 14px 0 18px;
+  }
+
+  .quote cite {
+    font-style: normal;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .quote__badge {
+    position: absolute;
+    top: -14px;
+    left: 24px;
+    background: var(--accent);
+    color: #111;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      padding: 48px 0 88px;
+    }
+    .hero__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>

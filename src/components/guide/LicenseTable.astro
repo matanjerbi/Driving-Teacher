@@ -1,0 +1,98 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import { licenses } from '@/data/licenses';
+---
+
+<section class="section section--alt">
+  <div class="wrap">
+    <SectionHeader eyebrow="הכול בטבלה אחת" title="דרגות הרישיון – בקצרה">
+      מספר השיעורים בטבלה הוא המינימום שנדרש בחוק. בפועל, כל תלמיד מתקדם בקצב שלו.
+    </SectionHeader>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">דרגה</th>
+            <th scope="col">מה מותר לרכוב</th>
+            <th scope="col">גיל</th>
+            <th scope="col">תאוריה</th>
+            <th scope="col">שיעורים (מינימום)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            licenses.map(({ code, allows, table: t }) => (
+              <tr>
+                <th scope="row" class="code">{code}</th>
+                <td>{allows}</td>
+                <td>
+                  {t.age}
+                  {t.ageNote && <small>{t.ageNote}</small>}
+                </td>
+                <td>
+                  {t.theory}
+                  {t.theoryNote && <small>{t.theoryNote}</small>}
+                </td>
+                <td>
+                  <strong>{t.lessons}</strong>
+                  {t.lessonsNote && <small>{t.lessonsNote}</small>}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+  }
+
+  th,
+  td {
+    padding: 16px 18px;
+    text-align: right;
+    border-bottom: 1px solid var(--line);
+    font-size: 16px;
+    vertical-align: top;
+  }
+
+  thead th {
+    background: var(--asphalt-3);
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  .code {
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--accent);
+    direction: ltr;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  small {
+    display: block;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 3px;
+  }
+</style>

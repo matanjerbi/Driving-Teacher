@@ -1,0 +1,80 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import { reviews } from '@/data/content';
+---
+
+<section id="reviews" class="section">
+  <div class="wrap">
+    <SectionHeader eyebrow="תלמידים ממליצים" title="מה אומרים התלמידים">ביקורות אמיתיות של תלמידים.</SectionHeader>
+
+    <div class="reviews">
+      {
+        reviews.map((r) => (
+          <article class="review reveal">
+            <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+            <p>"{r.text}"</p>
+            <footer>
+              <span class="review__avatar" aria-hidden="true">{r.initial}</span>
+              <span>
+                {r.name}
+                <small>מתוך ביקורות ב-{r.source}</small>
+              </span>
+            </footer>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .review {
+    background: var(--asphalt-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .review p {
+    font-size: 19px;
+    font-weight: 500;
+    margin: 12px 0 16px;
+  }
+
+  .review footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .review small {
+    display: block;
+    font-size: 13px;
+  }
+
+  .review__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--asphalt-3);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  @media (max-width: 760px) {
+    .reviews {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+/** באנר צהוב עם קריאה לפעולה לוואטסאפ */
+import Icon from './layout/Icon.astro';
+import { waHref } from '@/data/site';
+
+interface Props {
+  title: string;
+  text: string;
+  buttonLabel: string;
+  waMessage?: string;
+}
+
+const { title, text, buttonLabel, waMessage } = Astro.props;
+---
+
+<div class="cta-banner reveal">
+  <div>
+    <h2>{title}</h2>
+    <p>{text}</p>
+  </div>
+  <a class="btn btn--dark" href={waHref(waMessage)} target="_blank" rel="noopener">
+    <Icon name="whatsapp" />{buttonLabel}
+  </a>
+</div>
+
+<style>
+  .cta-banner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    align-items: center;
+    background: var(--accent);
+    color: #111;
+    border-radius: var(--radius-lg);
+    padding: 40px 44px;
+  }
+
+  h2 {
+    margin: 0 0 6px;
+    color: #111;
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: 500;
+    max-width: 52ch;
+  }
+
+  @media (max-width: 760px) {
+    .cta-banner {
+      grid-template-columns: 1fr;
+      padding: 32px 26px;
+    }
+  }
+</style>

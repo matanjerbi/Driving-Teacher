@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro';
+import { nav, site, telHref } from '@/data/site';
+
+interface Props {
+  /** הנתיב הנוכחי – לסימון הקישור הפעיל */
+  current?: string;
+}
+
+const { current } = Astro.props;
+---
+
+<header class="header">
+  <div class="wrap header__inner">
+    <a href="/" class="brand" aria-label={`${site.name} – לדף הבית`}>
+      <span class="brand__mark" aria-hidden="true">נ</span>
+      <span>
+        <span class="brand__name">{site.name}</span>
+        <span class="brand__sub">{site.tagline}</span>
+      </span>
+    </a>
+
+    <nav class="header__nav" aria-label="ניווט ראשי">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a class="btn btn--primary btn--sm header__call" href={telHref}>
+      <Icon name="phone" />
+      <span>{site.phone.display}</span>
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(18, 19, 21, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand__mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+    color: #111;
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  .brand__name {
+    display: block;
+    font-weight: 800;
+    font-size: 19px;
+    line-height: 1.1;
+  }
+
+  .brand__sub {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .header__nav {
+    display: flex;
+    gap: 28px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .header__nav a:hover,
+  .header__nav a[aria-current='page'] {
+    color: var(--text);
+  }
+
+  @media (max-width: 960px) {
+    .header__nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .header__call span {
+      display: none;
+    }
+    .header__call {
+      padding: 10px 12px;
+    }
+  }
+</style>

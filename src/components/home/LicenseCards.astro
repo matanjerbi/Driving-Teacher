@@ -1,0 +1,136 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import { licenses } from '@/data/licenses';
+---
+
+<section id="licenses" class="section section--alt">
+  <div class="wrap">
+    <SectionHeader eyebrow="דרגות רישיון" title="איזה רישיון מתאים לך?">
+      אנחנו מלמדים את כל שלוש דרגות הרישיון לאופנוע. לא בטוחים מה מתאים? שלחו הודעה ונעשה סדר.
+    </SectionHeader>
+
+    <div class="licenses">
+      {
+        licenses.map((lic) => (
+          <article class="lic card reveal">
+            <div class="lic__code">{lic.code}</div>
+            <h3>{lic.title}</h3>
+            <p>{lic.blurb}</p>
+            <ul class="lic__specs">
+              {lic.specs.map((s) => (
+                <li>
+                  <span>{s.label}</span>
+                  <span>{s.value}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="guide-cta reveal">
+      <div>
+        <strong>לא בטוחים כמה שיעורים אתם צריכים?</strong>
+        <span>ענו על שתי שאלות וקבלו את המסלול שלכם – טופס ירוק, תאוריה, שיעורים וטסט.</span>
+      </div>
+      <a class="btn btn--primary" href="/guide/">למדריך המלא ←</a>
+    </div>
+    <p class="note">* לפי תקנות משרד התחבורה כפי שפורסמו. התנאים עשויים להשתנות – נשמח לעבור איתכם על המקרה שלכם.</p>
+  </div>
+</section>
+
+<style>
+  .licenses {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .lic {
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .lic:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .lic__code {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--accent);
+    direction: ltr;
+    text-align: right;
+  }
+
+  .lic h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 12px 0 6px;
+  }
+
+  .lic p {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .lic__specs {
+    list-style: none;
+    margin-top: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .lic__specs li {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .lic__specs li span:first-child {
+    color: var(--muted);
+    flex: none;
+  }
+
+  .lic__specs li span:last-child {
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .guide-cta {
+    margin-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: var(--asphalt);
+    border: 1px dashed #4a4f55;
+    border-radius: var(--radius);
+    padding: 22px 26px;
+  }
+
+  .guide-cta strong {
+    display: block;
+    font-size: 19px;
+  }
+
+  .guide-cta span {
+    color: var(--muted);
+  }
+
+  @media (max-width: 860px) {
+    .licenses {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

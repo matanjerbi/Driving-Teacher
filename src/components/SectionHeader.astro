@@ -1,0 +1,20 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  /** צבע ה-eyebrow (ברירת מחדל: צבע ההדגשה) */
+  eyebrowColor?: string;
+}
+
+const { eyebrow, title, eyebrowColor } = Astro.props;
+---
+
+<div class="eyebrow" style={eyebrowColor ? `color:${eyebrowColor}` : undefined}>{eyebrow}</div>
+<h2>{title}</h2>
+{
+  Astro.slots.has('default') && (
+    <p class="section-lead">
+      <slot />
+    </p>
+  )
+}

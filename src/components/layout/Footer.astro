@@ -1,0 +1,28 @@
+---
+import { site } from '@/data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>© {year} {site.name} – {site.tagline}, {site.city}</span>
+    <span>A2 · A1 · A</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 36px 0 110px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .footer__inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

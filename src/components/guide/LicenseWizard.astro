@@ -1,0 +1,386 @@
+---
+/**
+ * אשף "כמה שיעורים אני צריך?"
+ * האפשרויות מרונדרות בשרת; התוצאה מחושבת בדפדפן ע"י getPlan (src/lib/licensePlan.ts)
+ * ומוצגת דרך תבניות <template> – בלי לבנות HTML ממחרוזות.
+ */
+import Icon from '../layout/Icon.astro';
+import { licenses } from '@/data/licenses';
+import { currentLicenseOptions } from '@/lib/licensePlan';
+import { site, telHref } from '@/data/site';
+
+const targetHints: Record<string, string> = {
+  A2: 'קטנוע / אופנוע עד 125 סמ"ק',
+  A1: 'אופנוע עד 47.46 כ"ס',
+  A: 'כל אופנוע, ללא הגבלה',
+};
+---
+
+<div class="wizard" data-wizard data-wa-number={site.phone.international}>
+  <fieldset class="wizard__q">
+    <legend class="wizard__title"><span class="wizard__num">1</span>איזה רישיון אתם רוצים?</legend>
+    <div class="wizard__opts wizard__opts--target" data-group="target">
+      {
+        licenses.map((l) => (
+          <button type="button" class="opt opt--big" data-value={l.code} aria-pressed="false">
+            <b>{l.code}</b>
+            <small>{targetHints[l.code]}</small>
+          </button>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <fieldset class="wizard__q">
+    <legend class="wizard__title"><span class="wizard__num">2</span>איזה רישיון כבר יש לכם?</legend>
+    <div class="wizard__opts" data-group="current">
+      {
+        currentLicenseOptions.map((o) => (
+          <button type="button" class="opt" data-value={o.value} aria-pressed="false">
+            {o.label}
+            {o.hint && <small>{o.hint}</small>}
+          </button>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <div class="wizard__result" data-result aria-live="polite">
+    <p class="wizard__empty">בחרו תשובה לשתי השאלות כדי לראות את המסלול שלכם 👆</p>
+  </div>
+
+  <!-- תבניות לתוצאה -->
+  <template data-tpl="route">
+    <div class="result__head">
+      <h3 data-slot="title"></h3>
+      <span class="chip" data-slot="age"></span>
+      <span class="chip" data-slot="current"></span>
+    </div>
+    <div class="result__route" data-slot="steps"></div>
+    <div class="result__tip">
+      <span aria-hidden="true">💡</span>
+      <p><strong>הטיפ שלנו: </strong><span data-slot="tip"></span></p>
+    </div>
+  </template>
+
+  <template data-tpl="step">
+    <div class="result__step">
+      <div class="result__label" data-slot="label"></div>
+      <div class="result__value" data-slot="value"></div>
+      <div class="result__sub" data-slot="sub"></div>
+    </div>
+  </template>
+
+  <template data-tpl="blocked">
+    <div class="result__blocked" data-slot="message"></div>
+  </template>
+
+  <template data-tpl="cta">
+    <div class="cta-row result__cta">
+      <a class="btn btn--wa" data-slot="wa" target="_blank" rel="noopener">
+        <Icon name="whatsapp" />שלחו לנו את המסלול שלכם
+      </a>
+      <a class="btn btn--ghost" href={telHref}><Icon name="phone" />חייגו</a>
+    </div>
+  </template>
+</div>
+
+<script>
+  import type { LicenseCode } from '@/data/licenses';
+  import {
+    currentLicenseLabel,
+    getPlan,
+    planWhatsAppMessage,
+    type CurrentLicense,
+    type RouteStep,
+  } from '@/lib/licensePlan';
+
+  type State = { target: LicenseCode | null; current: CurrentLicense | null };
+
+  function cloneTemplate(root: HTMLElement, name: string): DocumentFragment {
+    const tpl = root.querySelector<HTMLTemplateElement>(`template[data-tpl="${name}"]`);
+    if (!tpl) throw new Error(`Missing template: ${name}`);
+    return tpl.content.cloneNode(true) as DocumentFragment;
+  }
+
+  function fill(frag: DocumentFragment | HTMLElement, slot: string, text: string) {
+    const el = frag.querySelector<HTMLElement>(`[data-slot="${slot}"]`);
+    if (el) el.textContent = text;
+  }
+
+  function renderStep(root: HTMLElement, step: RouteStep): DocumentFragment {
+    const frag = cloneTemplate(root, 'step');
+    const el = frag.querySelector<HTMLElement>('.result__step');
+    if (el && step.tone !== 'default') el.classList.add(`is-${step.tone}`);
+    fill(frag, 'label', step.label);
+    fill(frag, 'value', step.value);
+    fill(frag, 'sub', step.sub);
+    return frag;
+  }
+
+  function render(root: HTMLElement, state: State) {
+    const out = root.querySelector<HTMLElement>('[data-result]');
+    if (!out || !state.target || !state.current) return;
+
+    const plan = getPlan(state.target, state.current);
+    const frag = document.createDocumentFragment();
+
+    if (plan.kind === 'blocked') {
+      const blocked = cloneTemplate(root, 'blocked');
+      fill(blocked, 'message', plan.message);
+      frag.append(blocked);
+    } else {
+      const route = cloneTemplate(root, 'route');
+      fill(route, 'title', `המסלול שלכם ל-${state.target}`);
+      fill(route, 'age', `גיל: ${plan.age}`);
+      fill(route, 'current', currentLicenseLabel[state.current]);
+      fill(route, 'tip', plan.tip);
+      const stepsEl = route.querySelector<HTMLElement>('[data-slot="steps"]');
+      plan.steps.forEach((s) => stepsEl?.append(renderStep(root, s)));
+      frag.append(route);
+    }
+
+    const cta = cloneTemplate(root, 'cta');
+    const wa = cta.querySelector<HTMLAnchorElement>('[data-slot="wa"]');
+    if (wa) {
+      const msg = planWhatsAppMessage(state.target, state.current);
+      wa.href = `https://wa.me/${root.dataset.waNumber}?text=${encodeURIComponent(msg)}`;
+    }
+    frag.append(cta);
+
+    out.replaceChildren(frag);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-wizard]').forEach((root) => {
+    const state: State = { target: null, current: null };
+
+    root.querySelectorAll<HTMLElement>('[data-group]').forEach((group) => {
+      group.addEventListener('click', (e) => {
+        const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-value]');
+        if (!btn) return;
+
+        group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+
+        const value = btn.dataset.value!;
+        if (group.dataset.group === 'target') state.target = value as LicenseCode;
+        else state.current = value as CurrentLicense;
+
+        render(root, state);
+      });
+    });
+  });
+</script>
+
+<style>
+  .wizard {
+    background: var(--asphalt-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+  }
+
+  .wizard__q {
+    border: 0;
+    margin-bottom: 26px;
+  }
+
+  .wizard__title {
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .wizard__num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #111;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 15px;
+    flex: none;
+  }
+
+  .wizard__opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .opt {
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--text);
+    background: var(--asphalt);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 18px;
+    text-align: right;
+  }
+
+  .opt small {
+    display: block;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .opt:hover {
+    border-color: #5a5f66;
+  }
+
+  .opt[aria-pressed='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #111;
+  }
+
+  .opt[aria-pressed='true'] small {
+    color: #3a3000;
+  }
+
+  .opt--big {
+    min-width: 150px;
+  }
+
+  .opt--big b {
+    display: block;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.1;
+    direction: ltr;
+    text-align: right;
+  }
+
+  .wizard__result {
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+  }
+
+  .wizard__empty {
+    color: var(--muted);
+  }
+
+  /* התוצאה נבנית בדפדפן מתבניות – לכן הסגנונות שלה גלובליים בתוך .wizard */
+  .wizard :global(.result__head) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+
+  .wizard :global(.result__head h3) {
+    font-size: 26px;
+    font-weight: 900;
+  }
+
+  .wizard :global(.result__route) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  .wizard :global(.result__step) {
+    background: var(--asphalt);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .wizard :global(.result__label) {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .wizard :global(.result__value) {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .wizard :global(.result__sub) {
+    color: var(--muted);
+    font-size: 14.5px;
+    margin-top: 6px;
+  }
+
+  .wizard :global(.result__step.is-ok .result__value) {
+    color: var(--success);
+  }
+
+  .wizard :global(.result__step.is-highlight) {
+    border-color: var(--accent);
+  }
+
+  .wizard :global(.result__step.is-highlight .result__value) {
+    color: var(--accent);
+  }
+
+  .wizard :global(.result__tip) {
+    margin-top: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: rgba(255, 194, 26, 0.08);
+    border: 1px solid rgba(255, 194, 26, 0.35);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    font-size: 16px;
+  }
+
+  .wizard :global(.result__blocked) {
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-line);
+    border-radius: var(--radius);
+    padding: 20px;
+    font-size: 17px;
+  }
+
+  .wizard :global(.result__cta) {
+    margin-top: 22px;
+  }
+
+  @media (max-width: 860px) {
+    .wizard {
+      padding: 24px 18px;
+    }
+    .wizard :global(.result__route) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .wizard__opts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .wizard__opts--target {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .opt--big {
+      min-width: 0;
+      padding: 12px 10px;
+    }
+    .opt--big b {
+      font-size: 26px;
+    }
+    .opt--big small {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .wizard :global(.result__route) {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LicenseWizard from '@/components/guide/LicenseWizard.astro';
+import LicenseTable from '@/components/guide/LicenseTable.astro';
+import GreenForm from '@/components/guide/GreenForm.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { legalNote } from '@/data/licenses';
+import { site } from '@/data/site';
+---
+
+<BaseLayout
+  current="/guide/"
+  title={`כמה שיעורים צריך לרישיון אופנוע? המדריך המלא | ${site.name}`}
+  description="טופס ירוק, תאוריה, מספר שיעורים מינימלי וטסט – לפי דרגת הרישיון (A2, A1, A) ולפי הרישיון שכבר יש לכם."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <nav class="crumb" aria-label="פירורי לחם"><a href="/">דף הבית</a> / המדריך לרישיון</nav>
+      <h1>כמה שיעורים <em>אני צריך?</em></h1>
+      <p class="lead page-hero__lead">
+        ענו על שתי שאלות – ותקבלו את המסלול המדויק שלכם: טופס ירוק, תאוריה, מספר שיעורים מינימלי ואיזה טסט.
+      </p>
+      <LicenseWizard />
+    </div>
+  </section>
+
+  <LicenseTable />
+  <GreenForm />
+
+  <section class="section section--flush-top">
+    <div class="wrap">
+      <CtaBanner
+        title="עדיין לא בטוחים מה המסלול שלכם?"
+        text="שלחו לנו הודעה עם הרישיון שיש לכם והרישיון שאתם רוצים – ונגיד לכם בדיוק מה צריך."
+        buttonLabel="שאלו אותנו"
+      />
+      <p class="note">* {legalNote}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 56px 0 72px;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(34px, 5vw, 54px);
+  }
+
+  .page-hero__lead {
+    max-width: 52ch;
+    margin: 18px 0 32px;
+  }
+
+  .crumb {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+  .crumb a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+</style>
