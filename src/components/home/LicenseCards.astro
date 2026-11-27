@@ -60,12 +60,13 @@ import { licenses } from '@/data/licenses';
   }
 
   .lic__code {
-    font-size: 52px;
+    align-self: flex-start;
+    font-size: 48px;
     font-weight: 900;
     line-height: 1;
-    color: var(--accent);
+    padding-bottom: 6px;
+    border-bottom: 5px solid var(--accent);
     direction: ltr;
-    text-align: right;
   }
 
   .lic h3 {
@@ -113,8 +114,8 @@ import { licenses } from '@/data/licenses';
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
-    background: var(--asphalt);
-    border: 1px dashed #4a4f55;
+    background: var(--surface);
+    border: 1px dashed var(--line-strong);
     border-radius: var(--radius);
     padding: 22px 26px;
   }

@@ -173,7 +173,7 @@ const targetHints: Record<string, string> = {
 
 <style>
   .wizard {
-    background: var(--asphalt-2);
+    background: var(--surface-alt);
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     padding: 32px;
@@ -217,7 +217,7 @@ const targetHints: Record<string, string> = {
     font-size: 16px;
     cursor: pointer;
     color: var(--text);
-    background: var(--asphalt);
+    background: var(--surface);
     border: 1.5px solid var(--line);
     border-radius: 12px;
     padding: 12px 18px;
@@ -232,7 +232,7 @@ const targetHints: Record<string, string> = {
   }
 
   .opt:hover {
-    border-color: #5a5f66;
+    border-color: var(--line-strong);
   }
 
   .opt[aria-pressed='true'] {
@@ -288,7 +288,7 @@ const targetHints: Record<string, string> = {
   }
 
   .wizard :global(.result__step) {
-    background: var(--asphalt);
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 20px;
@@ -322,7 +322,7 @@ const targetHints: Record<string, string> = {
   }
 
   .wizard :global(.result__step.is-highlight .result__value) {
-    color: var(--accent);
+    color: var(--accent-text);
   }
 
   .wizard :global(.result__tip) {
@@ -330,8 +330,8 @@ const targetHints: Record<string, string> = {
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    background: rgba(255, 194, 26, 0.08);
-    border: 1px solid rgba(255, 194, 26, 0.35);
+    background: #fff8e1;
+    border: 1px solid #f5dd8a;
     border-radius: var(--radius);
     padding: 18px 20px;
     font-size: 16px;

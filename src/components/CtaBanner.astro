@@ -1,5 +1,5 @@
 ---
-/** באנר צהוב עם קריאה לפעולה לוואטסאפ */
+/** באנר עם קריאה לפעולה – צהוב (accent) או כהה (dark) */
 import Icon from './layout/Icon.astro';
 import { waHref } from '@/data/site';
 
@@ -7,19 +7,29 @@ interface Props {
   title: string;
   text: string;
   buttonLabel: string;
+  /** הודעת וואטסאפ מוכנה. מתעלמים ממנה כש-href מוגדר */
   waMessage?: string;
+  /** קישור פנימי במקום וואטסאפ */
+  href?: string;
+  variant?: 'accent' | 'dark';
 }
 
-const { title, text, buttonLabel, waMessage } = Astro.props;
+const { title, text, buttonLabel, waMessage, href, variant = 'accent' } = Astro.props;
+const isWhatsApp = !href;
+const link = href ?? waHref(waMessage);
 ---
 
-<div class="cta-banner reveal">
+<div class:list={['cta-banner', 'reveal', `cta-banner--${variant}`, { 'theme-dark': variant === 'dark' }]}>
   <div>
     <h2>{title}</h2>
     <p>{text}</p>
   </div>
-  <a class="btn btn--dark" href={waHref(waMessage)} target="_blank" rel="noopener">
-    <Icon name="whatsapp" />{buttonLabel}
+  <a
+    class:list={['btn', variant === 'dark' ? 'btn--primary' : 'btn--dark']}
+    href={link}
+    {...(isWhatsApp ? { target: '_blank', rel: 'noopener' } : {})}
+  >
+    {isWhatsApp && <Icon name="whatsapp" />}{buttonLabel}
   </a>
 </div>
 
@@ -29,21 +39,46 @@ const { title, text, buttonLabel, waMessage } = Astro.props;
     grid-template-columns: 1fr auto;
     gap: 28px;
     align-items: center;
-    background: var(--accent);
-    color: #111;
     border-radius: var(--radius-lg);
     padding: 40px 44px;
   }
 
+  .cta-banner--accent {
+    background: var(--accent);
+    color: #111;
+  }
+
+  .cta-banner--accent h2 {
+    color: #111;
+  }
+
+  .cta-banner--dark {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* פס כביש דק בתחתית הגרסה הכהה – אותה שפה כמו ב-Hero */
+  .cta-banner--dark::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 40px, transparent 40px 76px);
+    opacity: 0.8;
+  }
+
+  .cta-banner--dark p {
+    color: var(--muted);
+  }
+
   h2 {
     margin: 0 0 6px;
-    color: #111;
   }
 
   p {
     font-size: 18px;
     font-weight: 500;
-    max-width: 52ch;
+    max-width: 56ch;
   }
 
   @media (max-width: 760px) {

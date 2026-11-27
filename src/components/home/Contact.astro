@@ -79,11 +79,11 @@ const items = [
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: var(--asphalt-3);
+    background: var(--surface-raised);
     border: 1px solid var(--line);
     display: grid;
     place-items: center;
-    color: var(--accent);
+    color: var(--accent-text);
     flex: none;
   }
 
@@ -97,14 +97,13 @@ const items = [
     overflow: hidden;
     border: 1px solid var(--line);
     aspect-ratio: 4 / 3;
-    background: var(--asphalt-3);
+    background: var(--surface-raised);
   }
 
   .contact__map iframe {
     width: 100%;
     height: 100%;
     border: 0;
-    filter: grayscale(0.6) invert(0.9) hue-rotate(180deg) contrast(0.9);
   }
 
   @media (max-width: 860px) {

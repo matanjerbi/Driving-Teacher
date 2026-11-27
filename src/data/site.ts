@@ -1,3 +1,8 @@
+export interface HeroImage {
+  src: string;
+  alt: string;
+}
+
 /** פרטי העסק – מקור אמת יחיד לכל האתר */
 export const site = {
   name: 'ניר הלאלי',
@@ -11,6 +16,12 @@ export const site = {
   },
   description:
     'לימוד נהיגה על אופנועים וקטנועים בפתח תקווה – רישיון A2, A1 ו-A. יחס אישי והכנה אמיתית לטסט.',
+  /**
+   * תמונה ל-Hero – לשים קובץ ב-public/images ולכתוב כאן, למשל:
+   * { src: '/images/hero.jpg', alt: 'ניר הלאלי על האופנוע במגרש' }
+   * כל עוד null – מוצג במקומה ציטוט מביקורת.
+   */
+  heroImage: null as HeroImage | null,
 } as const;
 
 export const telHref = `tel:${site.phone.tel}`;

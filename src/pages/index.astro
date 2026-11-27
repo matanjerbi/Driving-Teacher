@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/home/Hero.astro';
+import TrustStrip from '@/components/home/TrustStrip.astro';
 import LicenseCards from '@/components/home/LicenseCards.astro';
 import WhyUs from '@/components/home/WhyUs.astro';
 import ProcessSteps from '@/components/home/ProcessSteps.astro';
@@ -13,12 +14,26 @@ import { waMessages } from '@/data/content';
 
 <BaseLayout current="/">
   <Hero />
+  <TrustStrip />
   <LicenseCards />
-  <WhyUs />
 
-  <section class="section section--flush-top">
+  <section class="section section--tight">
     <div class="wrap">
       <CtaBanner
+        title="יש לכם רישיון רכב 3 שנים ומעלה?"
+        text="לקטנוע (A2) אין חובת שיעורים ואין תאוריה – רק מבחן שליטה במגרש. בפועל עושים כמה שיעורים כדי להגיע אליו בביטחון."
+        buttonLabel="בדקו את המסלול שלכם ←"
+        href="/guide/"
+      />
+    </div>
+  </section>
+
+  <WhyUs />
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <CtaBanner
+        variant="dark"
         title="נכשלת בטסט אצל מורה אחר?"
         text="זה קורה, וזה לא אומר שאתה לא יכול. לפעמים צריך רק הסבר אחר ותיקון של כמה דברים קטנים. תלמידים הגיעו אלינו אחרי כישלונות – ועברו."
         buttonLabel="בוא נדבר"

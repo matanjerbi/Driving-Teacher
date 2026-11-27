@@ -1,21 +1,22 @@
 ---
 import Icon from '../layout/Icon.astro';
+import Motorcycle from './Motorcycle.astro';
 import { site, telHref, waHref } from '@/data/site';
 import { reviews, waMessages } from '@/data/content';
 
 const featured = reviews.find((r) => r.highlight);
 ---
 
-<section class="hero">
+<section class="hero theme-dark">
   <div class="wrap hero__grid">
     <div>
       <div class="hero__tags">
         <span class="chip chip--accent">{site.city}</span>
-        <span class="chip">A2</span><span class="chip">A1</span><span class="chip">A</span>
+        <span class="chip">A2 · A1 · A</span>
       </div>
       <h1>לומדים לרכוב נכון.<br /><em>עוברים טסט</em> בביטחון.</h1>
       <p class="lead hero__lead">
-        שיעורי נהיגה על אופנועים וקטנועים ב{site.city} – מהשיעור הראשון במגרש ועד הטסט, לכל דרגות הרישיון.
+        שיעורי נהיגה על אופנועים וקטנועים בסבלנות ובקצב שלכם – גם אם אף פעם לא עליתם על אופנוע.
       </p>
       <div class="cta-row">
         <a class="btn btn--wa" href={waHref(waMessages.general)} target="_blank" rel="noopener">
@@ -26,24 +27,32 @@ const featured = reviews.find((r) => r.highlight);
     </div>
 
     {
-      featured && (
-        <aside class="quote reveal" aria-label="המלצת תלמיד">
-          {featured.badge && <span class="quote__badge">{featured.badge}</span>}
-          <div class="stars" aria-label="5 כוכבים">★★★★★</div>
-          <blockquote>"{featured.highlight}"</blockquote>
-          <cite>— {featured.name}, תלמיד</cite>
-        </aside>
+      site.heroImage ? (
+        <figure class="hero__photo reveal">
+          <img src={site.heroImage.src} alt={site.heroImage.alt} width="640" height="544" loading="eager" />
+        </figure>
+      ) : (
+        featured && (
+          <aside class="quote reveal" aria-label="המלצת תלמיד">
+            {featured.badge && <span class="quote__badge">{featured.badge}</span>}
+            <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+            <blockquote>"{featured.highlight}"</blockquote>
+            <cite>— {featured.name}, תלמיד</cite>
+          </aside>
+        )
       )
     }
   </div>
-  <div class="hero__road" aria-hidden="true"></div>
+
+  <div class="hero__road road-line" aria-hidden="true"></div>
+  <Motorcycle />
 </section>
 
 <style>
   .hero {
     position: relative;
     overflow: hidden;
-    padding: 72px 0 96px;
+    padding: 72px 0 150px;
   }
 
   .hero::before {
@@ -61,13 +70,13 @@ const featured = reviews.find((r) => r.highlight);
     inset: auto 0 34px 0;
     height: 6px;
     background: repeating-linear-gradient(90deg, var(--accent) 0 56px, transparent 56px 104px);
-    opacity: 0.85;
+    opacity: 0.9;
   }
 
   .hero__grid {
     position: relative;
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: 1.1fr 0.9fr;
     gap: 48px;
     align-items: center;
   }
@@ -81,12 +90,21 @@ const featured = reviews.find((r) => r.highlight);
 
   .hero__lead {
     margin: 20px 0 32px;
-    max-width: 34ch;
+    max-width: 36ch;
+  }
+
+  .hero__photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3.4;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
   }
 
   .quote {
     position: relative;
-    background: var(--asphalt-2);
+    background: var(--surface-alt);
     border: 1px solid var(--line);
     border-radius: 20px;
     padding: 28px;
@@ -119,7 +137,7 @@ const featured = reviews.find((r) => r.highlight);
 
   @media (max-width: 860px) {
     .hero {
-      padding: 48px 0 88px;
+      padding: 48px 0 130px;
     }
     .hero__grid {
       grid-template-columns: 1fr;

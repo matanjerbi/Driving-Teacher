@@ -1,0 +1,112 @@
+---
+/**
+ * אופנוע שנוסע פעם אחת על קו הכביש ב-Hero ועוצר.
+ * לא חוסם תוכן, ומכבד "הפחתת תנועה" (prefers-reduced-motion) – אז הוא פשוט עומד במקום.
+ * ההורה צריך להיות position: relative, והקו עצמו – אלמנט עם class "road-line".
+ */
+---
+
+<svg class="moto" viewBox="0 0 150 86" role="img" aria-label="אופנוע על הכביש">
+  <g class="moto__body" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 66 L60 54 L84 54"></path>
+    <path d="M104 30 L120 66"></path>
+    <path d="M98 26 L108 24"></path>
+    <path d="M44 40 L66 38"></path>
+    <path d="M62 38 Q76 28 96 34 L92 46 L62 46 Z" fill="currentColor"></path>
+    <rect x="58" y="48" width="28" height="14" rx="4" fill="#3a3e43"></rect>
+    <path d="M54 38 L70 18"></path>
+    <path d="M70 20 L100 27"></path>
+    <path d="M56 40 L74 50 L70 60"></path>
+    <circle cx="74" cy="12" r="8" fill="var(--accent)" stroke="var(--accent)"></circle>
+    <circle cx="108" cy="34" r="3.5" fill="var(--accent)" stroke="var(--accent)"></circle>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <g class="moto__wheel">
+      <circle cx="30" cy="66" r="16"></circle>
+      <path d="M30 52 L30 80 M16 66 L44 66" stroke-width="2" stroke="#7d8288"></path>
+    </g>
+    <g class="moto__wheel">
+      <circle cx="120" cy="66" r="16"></circle>
+      <path d="M120 52 L120 80 M106 66 L134 66" stroke-width="2" stroke="#7d8288"></path>
+    </g>
+  </g>
+</svg>
+
+<style>
+  .moto {
+    --moto-w: 150px;
+    /* נקודת העצירה: מתחת לעמודת הטקסט, בלי לחרוג מהמסך */
+    --moto-stop: min(calc(50% + 40px), calc(100% - var(--moto-w) - 24px));
+    --ride: 2.4s cubic-bezier(0.15, 0.75, 0.25, 1) 0.3s;
+
+    position: absolute;
+    bottom: 39px;
+    left: var(--moto-stop);
+    width: var(--moto-w);
+    height: auto;
+    color: var(--text);
+    pointer-events: none;
+    animation: moto-ride var(--ride) both;
+  }
+
+  .moto__body {
+    animation: moto-bob 0.18s linear 0.3s 13;
+  }
+
+  .moto__wheel {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: moto-spin 0.25s linear 0.3s 9;
+  }
+
+  /* הקו המקווקו זז יחד עם הנסיעה (מוגדר על אלמנט אח – לכן :global) */
+  :global(.road-line) {
+    animation: road-move var(--ride, 2.4s cubic-bezier(0.15, 0.75, 0.25, 1) 0.3s) both;
+  }
+
+  @keyframes moto-ride {
+    from {
+      left: calc(-1 * var(--moto-w) - 30px);
+    }
+    to {
+      left: var(--moto-stop);
+    }
+  }
+
+  @keyframes moto-bob {
+    50% {
+      transform: translateY(-1.5px);
+    }
+  }
+
+  @keyframes moto-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes road-move {
+    from {
+      background-position-x: 0;
+    }
+    to {
+      background-position-x: -520px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .moto {
+      --moto-w: 110px;
+      bottom: 38px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .moto,
+    .moto__body,
+    .moto__wheel,
+    :global(.road-line) {
+      animation: none;
+    }
+  }
+</style>

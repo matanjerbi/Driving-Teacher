@@ -1,0 +1,58 @@
+---
+import { trustPoints } from '@/data/content';
+---
+
+<div class="trust">
+  <ul class="wrap trust__card">
+    {
+      trustPoints.map((p) => (
+        <li>
+          <strong>{p.title}</strong>
+          <span>{p.text}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .trust {
+    position: relative;
+    z-index: 2;
+  }
+
+  .trust__card {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 0;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    padding: 22px 32px;
+  }
+
+  li {
+    display: grid;
+    gap: 2px;
+  }
+
+  strong {
+    font-size: 18px;
+  }
+
+  span {
+    color: var(--muted);
+    font-size: 15.5px;
+  }
+
+  @media (max-width: 760px) {
+    .trust__card {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 20px 22px;
+    }
+  }
+</style>

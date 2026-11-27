@@ -1,19 +1,28 @@
 /* =========================================================
    Design tokens
    ========================================================= */
+/*
+ * צבעים לפי תפקיד. ברירת המחדל בהירה (גוף האתר);
+ * .theme-dark מחליף אותם לאזורים הכהים – כותרת, Hero, פוטר, סרגל הנייד.
+ */
 :root {
-  --asphalt: #121315;
-  --asphalt-2: #1b1d20;
-  --asphalt-3: #25282c;
-  --line: #2f3337;
-  --line-strong: #44494f;
-  --text: #f2f2f0;
-  --muted: #a9adb2;
-  --accent: #ffc21a; /* צהוב סימון כביש */
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --surface-alt: #ffffff;
+  --surface-raised: #efefec;
+  --line: #e3e4e6;
+  --line-strong: #c9ccd0;
+  --text: #17181a;
+  --muted: #5a5e65;
+  --accent-text: #8a5d00; /* הדגשה בטקסט – צהוב כהה שעובר ניגודיות על בהיר */
+  --success: #157347;
+  --danger-bg: #fff1f0;
+  --danger-line: #f2b8b5;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.04);
+
+  --accent: #ffc21a; /* צהוב סימון כביש – רקעים, כפתורים, קווים */
   --accent-dark: #e0a800;
-  --success: #6ee7a0;
-  --danger-bg: rgba(255, 90, 90, 0.08);
-  --danger-line: rgba(255, 110, 110, 0.4);
+  --ink: #121315; /* אספלט */
   --wa: #25d366;
 
   --radius: 14px;
@@ -22,6 +31,23 @@
   --header-h: 68px;
 
   --font: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+}
+
+.theme-dark {
+  --bg: #121315;
+  --surface: #121315;
+  --surface-alt: #1b1d20;
+  --surface-raised: #25282c;
+  --line: #2f3337;
+  --line-strong: #44494f;
+  --text: #f2f2f0;
+  --muted: #b4b8bd;
+  --accent-text: #ffc21a;
+  --success: #6ee7a0;
+  --shadow: none;
+
+  background: var(--bg);
+  color: var(--text);
 }
 
 /* =========================================================
@@ -42,7 +68,7 @@ html {
 
 body {
   font-family: var(--font);
-  background: var(--asphalt);
+  background: var(--bg);
   color: var(--text);
   line-height: 1.65;
   font-size: 17px;
@@ -83,12 +109,16 @@ button {
 }
 
 .section--alt {
-  background: var(--asphalt-2);
+  background: var(--surface-alt);
   border-block: 1px solid var(--line);
 }
 
 .section--flush-top {
   padding-top: 0;
+}
+
+.section--tight {
+  padding: 56px 0;
 }
 
 /* =========================================================
@@ -104,7 +134,7 @@ h1 {
 h1 em,
 h2 em {
   font-style: normal;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 h2 {
@@ -115,7 +145,7 @@ h2 {
 }
 
 .eyebrow {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 800;
   font-size: 14px;
   letter-spacing: 1px;
@@ -134,7 +164,7 @@ h2 {
 }
 
 .text-link {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 700;
 }
 
@@ -190,7 +220,7 @@ h2 {
 
 .btn--ghost {
   background: transparent;
-  border: 1.5px solid var(--line);
+  border: 1.5px solid var(--line-strong);
   color: var(--text);
 }
 .btn--ghost:hover {
@@ -220,7 +250,7 @@ h2 {
    Shared bits
    ========================================================= */
 .stars {
-  color: var(--accent);
+  color: var(--accent-dark);
   letter-spacing: 3px;
 }
 
@@ -229,7 +259,7 @@ h2 {
   font-weight: 700;
   padding: 5px 12px;
   border-radius: 999px;
-  background: var(--asphalt-3);
+  background: var(--surface-raised);
   border: 1px solid var(--line);
   color: var(--muted);
 }
@@ -241,9 +271,14 @@ h2 {
 }
 
 .card {
-  background: var(--asphalt);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.theme-dark .stars {
+  color: var(--accent);
 }
 
 /* =========================================================

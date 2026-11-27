@@ -51,6 +51,8 @@ tests/
 ### עדכונים נפוצים
 
 - **טלפון / כתובת** – `src/data/site.ts`
+- **תמונה ל-Hero** – לשים קובץ ב-`public/images/` ולמלא את `heroImage` ב-`src/data/site.ts` (כל עוד ריק – מוצג ציטוט מביקורת)
+- **צבעים** – `src/styles/global.css`: גוף האתר בהיר כברירת מחדל, ו-`.theme-dark` מחליף לצבעים הכהים (כותרת, Hero, פוטר, באנר כהה)
 - **ביקורת חדשה** – להוסיף אובייקט ל-`reviews` ב-`src/data/content.ts`
 - **שינוי בתקנות** (גיל, מספר שיעורים) – `src/data/licenses.ts` לטבלה ולכרטיסים, ו-`src/lib/licensePlan.ts` לאשף. אחרי שינוי באשף – לעדכן את הבדיקות ולהריץ `npm test`.
 

@@ -9,6 +9,13 @@ export const why: { icon: IconName; title: string; text: string }[] = [
   { icon: 'pin', title: 'בפתח תקווה', text: 'שיעורים בפתח תקווה והסביבה – קרוב, נוח וזמין.' },
 ];
 
+/** שורת האמון מתחת ל-Hero */
+export const trustPoints: { title: string; text: string }[] = [
+  { title: 'שיעור אחד על אחד', text: 'בקצב שלכם, בלי לחץ' },
+  { title: 'כל דרגות הרישיון', text: 'A2 · A1 · A' },
+  { title: '★★★★★ בביקורות', text: 'גם מתלמידים שנכשלו אצל אחרים' },
+];
+
 export const processSteps: { title: string; text: string }[] = [
   {
     title: 'טופס ירוק',
