@@ -10,7 +10,7 @@ export const site = {
   city: 'פתח תקווה',
   /** מיקום בית הספר (המגרש) – לא כתובת מגורים */
   location: {
-    label: 'בית הספר – פתח תקווה',
+    label: 'צמוד לקפלר אופנועים, פתח תקווה',
     lat: 32.106115,
     lng: 34.864424,
     googleMapsUrl: 'https://maps.app.goo.gl/DfgXiuqRD5MCB2JH6',
