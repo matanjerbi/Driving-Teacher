@@ -8,7 +8,13 @@ export const site = {
   name: 'ניר הלאלי',
   tagline: 'לימוד נהיגה על אופנועים',
   city: 'פתח תקווה',
-  address: 'ראש פינה 21, פתח תקווה',
+  /** מיקום בית הספר (המגרש) – לא כתובת מגורים */
+  location: {
+    label: 'בית הספר – פתח תקווה',
+    lat: 32.106115,
+    lng: 34.864424,
+    googleMapsUrl: 'https://maps.app.goo.gl/DfgXiuqRD5MCB2JH6',
+  },
   phone: {
     display: '054-4287793',
     tel: '0544287793',
@@ -32,8 +38,10 @@ export function waHref(message?: string): string {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
-export const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`;
-export const mapsEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(site.address)}&z=15&output=embed`;
+const { lat, lng } = site.location;
+export const mapsHref = site.location.googleMapsUrl;
+export const wazeHref = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+export const mapsEmbedSrc = `https://maps.google.com/maps?q=${lat},${lng}&z=16&output=embed`;
 
 export const nav = [
   { href: '/#licenses', label: 'רישיונות' },

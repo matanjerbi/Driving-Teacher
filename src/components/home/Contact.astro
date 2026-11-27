@@ -1,13 +1,13 @@
 ---
 import SectionHeader from '../SectionHeader.astro';
 import Icon from '../layout/Icon.astro';
-import { mapsEmbedSrc, mapsHref, site, telHref, waHref } from '@/data/site';
+import { mapsEmbedSrc, mapsHref, site, telHref, waHref, wazeHref } from '@/data/site';
 import { waMessages } from '@/data/content';
 
 const items = [
   { icon: 'phone', href: telHref, title: site.phone.display, sub: 'טלפון', external: false },
   { icon: 'whatsapp', href: waHref(), title: 'וואטסאפ', sub: 'מענה מהיר בהודעה', external: true },
-  { icon: 'pin', href: mapsHref, title: site.address, sub: `${site.city} והסביבה`, external: true },
+  { icon: 'pin', href: mapsHref, title: site.location.label, sub: 'פתיחה בגוגל מפות', external: true },
 ] as const;
 ---
 
@@ -42,7 +42,11 @@ const items = [
     </div>
 
     <div class="contact__map reveal">
-      <iframe title={`מפה – ${site.address}`} loading="lazy" src={mapsEmbedSrc}></iframe>
+      <iframe title={`מפה – ${site.location.label}`} loading="lazy" src={mapsEmbedSrc}></iframe>
+      <div class="contact__nav">
+        <a class="btn btn--ghost btn--sm" href={wazeHref} target="_blank" rel="noopener">ניווט ב-Waze</a>
+        <a class="btn btn--ghost btn--sm" href={mapsHref} target="_blank" rel="noopener">ניווט בגוגל מפות</a>
+      </div>
     </div>
   </div>
 </section>
@@ -92,18 +96,20 @@ const items = [
     height: 22px;
   }
 
-  .contact__map {
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--line);
+  .contact__map iframe {
+    display: block;
+    width: 100%;
     aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
     background: var(--surface-raised);
   }
 
-  .contact__map iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
+  .contact__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
   }
 
   @media (max-width: 860px) {
